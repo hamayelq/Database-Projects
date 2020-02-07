@@ -160,9 +160,9 @@ INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Nex
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1011', '111-22-3333', DATE '2002-02-01', DATE '2002-02-03', DATE '2019-02-07', '200', '50');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1012', '222-22-2222', DATE '2002-03-01', DATE '2002-03-03', '', '150', '25');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1013', '222-22-2222', DATE '2002-04-01', DATE '2002-04-03', '', '150', '25');
-INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1014', '333-33-3333', DATE '2002-05-01', DATE '2002-05-03', '', '250', '75');
-INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1015', '333-33-3333', DATE '2002-06-01', DATE '2002-06-03', '', '250', '75');
-INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1016', '333-33-3333', DATE '2002-07-01', DATE '2002-07-03', '', '50', '5');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1014', '111-22-3333', DATE '2002-05-01', DATE '2002-05-03', '', '250', '75');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1015', '111-22-3333', DATE '2002-06-01', DATE '2002-06-03', '', '250', '75');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1016', '111-22-3333', DATE '2002-07-01', DATE '2002-07-03', '', '50', '5');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1017', '444-44-4444', DATE '2002-08-01', DATE '2002-08-03', '', '50', '5');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1018', '555-55-5555', DATE '2002-09-01', DATE '2002-09-03', DATE '2002-11-01', '15000', '500');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1019', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
@@ -305,18 +305,12 @@ SELECT Next_Visit
 FROM Admission
 WHERE Patient_SSN = '111-22-3333' AND Next_Visit IS NOT NULL
  
-/* Question 11 (DOES NOT WORK) */
+/* Question 11 */
 SELECT DoctorID
-FROM(
-    SELECT DoctorID, COUNT(Admission_ID) AS Inspections
-    FROM Inspect NATURAL JOIN(
-        SELECT Admission_ID
-        FROM Admission
-        WHERE Patient_SSN = '111-22-3333'
-    )
-    GROUP BY DoctorID
-)
-WHERE Examinations > 2;
+FROM Inspect E, Admission A
+WHERE E.Admission_ID = A.Admission_ID AND A.Patient_SSN = '111-22-3333'
+GROUP BY DoctorID
+HAVING COUNT(A.Patient_SSN) > 2;
  
 /* Question 12 */
 SELECT EquipmentID
