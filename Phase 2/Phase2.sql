@@ -274,13 +274,14 @@ FROM Equipment
 WHERE Serial_Number = 'A01-02X';
  
 /* Question 6 (DOES NOT WORK) */
-SELECT EmployeeID, MAX(numRooms) AS numRooms
-FROM(
-    SELECT EmployeeID, COUNT(Room_No) AS numRooms
-    FROM Room_Access
-    GROUP BY EmployeeID
-)
-GROUP BY EmployeeID;
+Select EmployeeID, numRooms FROM 
+    (SELECT EmployeeID, Count(Room_No) as numRooms
+        From Room_Access
+        Group By EmployeeID)
+        WHERE numRooms = 
+        (SELECT MAX(numRooms)from (SELECT EmployeeID, Count(Room_No) as numRooms
+            From Room_Access
+Group By EmployeeID));
  
 /* Question 7 */
 SELECT Title AS empType, COUNT(Title) AS empCount
