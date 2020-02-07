@@ -54,7 +54,7 @@ CREATE TABLE Equipment_Type(
     EquipmentID INTEGER NOT NULL PRIMARY KEY,
     Instructions CHAR(500),
     Description CHAR(500),
-    Model INTEGER NOT NULL,
+    ModelNo INTEGER NOT NULL,
     Number_Of_Units INTEGER NOT NULL
 );
  
@@ -157,26 +157,28 @@ INSERT INTO Room(Room_No,Occupation_Flag) VALUES('000','0');
  
 /*Admission*/
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1010', '111-22-3333', DATE '2002-01-01', DATE '2002-01-03', '', '200', '50');
-INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1011', '111-22-3333', DATE '2002-02-01', DATE '2002-02-03', '', '200', '50');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1011', '111-22-3333', DATE '2002-02-01', DATE '2002-02-03', DATE '2019-02-07', '200', '50');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1012', '222-22-2222', DATE '2002-03-01', DATE '2002-03-03', '', '150', '25');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1013', '222-22-2222', DATE '2002-04-01', DATE '2002-04-03', '', '150', '25');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1014', '333-33-3333', DATE '2002-05-01', DATE '2002-05-03', '', '250', '75');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1015', '333-33-3333', DATE '2002-06-01', DATE '2002-06-03', '', '250', '75');
-INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1016', '444-44-4444', DATE '2002-07-01', DATE '2002-07-03', '', '50', '5');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1016', '333-33-3333', DATE '2002-07-01', DATE '2002-07-03', '', '50', '5');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1017', '444-44-4444', DATE '2002-08-01', DATE '2002-08-03', '', '50', '5');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1018', '555-55-5555', DATE '2002-09-01', DATE '2002-09-03', DATE '2002-11-01', '15000', '500');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1019', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
  
 /*EquipType*/
-INSERT INTO Equipment_Type(EquipmentID, Instructions, Description, Model, Number_Of_Units) VALUES('1000','Turn on.', 'MRI machine.','500', '3');
-INSERT INTO Equipment_Type(EquipmentID, Instructions, Description, Model, Number_Of_Units) VALUES('1001','Do stuff.', 'Cat scan.','501', '5');
-INSERT INTO Equipment_Type(EquipmentID, Instructions, Description, Model, Number_Of_Units) VALUES('1002','Weigh people.', 'Scale.','502', '20');
+INSERT INTO Equipment_Type(EquipmentID, Instructions, Description, ModelNo, Number_Of_Units) VALUES('1000','Turn on.', 'MRI machine.','500', '3');
+INSERT INTO Equipment_Type(EquipmentID, Instructions, Description, ModelNo, Number_Of_Units) VALUES('1001','Do stuff.', 'Cat scan.','501', '5');
+INSERT INTO Equipment_Type(EquipmentID, Instructions, Description, ModelNo, Number_Of_Units) VALUES('1002','Weigh people.', 'Scale.','502', '20');
  
 /*Equipment*/
 INSERT INTO Equipment(Serial_Number, EquipmentID, Room_No, Purchase_Year, Last_Inspection) VALUES('A01-02X', '1000', '111', '2000', DATE '2000-01-01');
 INSERT INTO Equipment(Serial_Number, EquipmentID, Room_No, Purchase_Year, Last_Inspection) VALUES('100501', '1001', '222', '2001', DATE '2000-02-02');
 INSERT INTO Equipment(Serial_Number, EquipmentID, Room_No, Purchase_Year, Last_Inspection) VALUES('100502', '1002', '333', '2002', DATE '2000-03-03');
- 
+INSERT INTO Equipment(Serial_Number, EquipmentID, Room_No, Purchase_Year, Last_Inspection) VALUES('100503', '1001', '222', '2010', DATE '2000-02-02');
+INSERT INTO Equipment(Serial_Number, EquipmentID, Room_No, Purchase_Year, Last_Inspection) VALUES('100504', '1001', '333', '2011', DATE '2000-03-03');
+
 /*Doctor*/
 INSERT INTO Doctor(DoctorID,First_Name,Last_Name,Gender,Specialty) VALUES('1111','Mother','Someones','Female','Heart');
 INSERT INTO Doctor(DoctorID,First_Name,Last_Name,Gender,Specialty) VALUES('2222','Yung','Bruh','Other','Brain');
@@ -198,8 +200,14 @@ INSERT INTO Stays_In(Start_Date, Room_No, Admission_ID, End_Date) VALUES(DATE '2
 /*Inspections*/
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1010','1111','Just plain dumb');
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','3333','Fractured earlobe');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','1111','Fractured pelvis');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','1111','Fractured belly');
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1012','0000','Sexually induced tinnitus');
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1013','7777','Sexually induced bronchitis');
+
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1014','8888','Blindness');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1015','8888','Is Deaf');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1016','8888','Lost sense of touch');
  
 /*RoomServices*/
 INSERT INTO Room_Service(Room_No,Service) VALUES('111','ER');
@@ -213,6 +221,7 @@ INSERT INTO Room_Service(Room_No,Service) VALUES('888','Spleen Surgery');
  
 /*Room Access*/
 INSERT INTO Room_Access(Room_No,EmployeeID) VALUES('222','10000');
+INSERT INTO Room_Access(Room_No,EmployeeID) VALUES('333','10000');
 INSERT INTO Room_Access(Room_No,EmployeeID) VALUES('444','10006');
 INSERT INTO Room_Access(Room_No,EmployeeID) VALUES('999','10007');
  
@@ -229,19 +238,19 @@ FROM Employee
 WHERE BossID = 100
 AND empEchelon = 0;
  
-/* Question 3 (DOES NOT WORK) */
-SELECT Patient_SSN, Sum(Insurance_Payment) AS totalPaid
+/* Question 3 */
+SELECT Patient_SSN, SUM(Insurance_Payment) AS totalPaid
 FROM Admission
 GROUP BY Patient_SSN
 UNION
-    (SELECT SSN, First_Name, Last_Name, 0 AS totalPaid  /* Reporting patients */
+    (SELECT SSN, 0 AS totalPaid  /* Reporting patients */
      FROM Patient
      MINUS
         (SELECT Patient_SSN, 0 AS totalPaid             /* Removing patients with insurance payments */
         FROM Admission));
  
-/* Question 4 (DOES NOT WORK) */
-SELECT SSN, First_Name, Last_Name, Visits
+/* Question 4 */
+SELECT SSN, First_Name, Last_Name, numVisits
 FROM Patient NATURAL JOIN (
     SELECT Patient_SSN AS SSN, COUNT(*) AS numVisits
     FROM Admission
@@ -265,9 +274,9 @@ FROM Equipment
 WHERE Serial_Number = 'A01-02X';
  
 /* Question 6 (DOES NOT WORK) */
-Select EmployeeID, MAX(numRooms)
+SELECT EmployeeID, MAX(numRooms) AS numRooms
 FROM(
-    SELECT EmployeeID, COUNT(RoomNo) AS numRooms
+    SELECT EmployeeID, COUNT(Room_No) AS numRooms
     FROM Room_Access
     GROUP BY EmployeeID
 )
@@ -278,25 +287,23 @@ SELECT Title AS empType, COUNT(Title) AS empCount
 FROM Employee
 GROUP BY Title;
  
-/* Question 8 (DOES NOT WORK) */
+/* Question 8 */
 SELECT SSN, First_Name, Last_Name, Next_Visit
 FROM Patient NATURAL JOIN (
     SELECT Patient_SSN AS SSN, Next_Visit
     FROM ADMISSION
+    WHERE Next_Visit IS NOT NULL
 );
  
-/* Question 9 (DOES NOT WORK) */
-SELECT EquipmentID, Model, Number_Of_Units
-FROM Equipment_Type NATURAL JOIN (
-    SELECT Type_ID AS EquipmentID, Count(*) AS Number_Of_Units
-    FROM Equipment
-    GROUP BY Type_ID)
+/* Question 9 */
+SELECT EquipmentID, ModelNo, Number_Of_Units
+FROM Equipment_Type
 WHERE Number_Of_Units > 3;
  
-/* Question 10 (DOES NOT WORK) */
-SELECT MAX(Next_Visit)
+/* Question 10 */
+SELECT Next_Visit
 FROM Admission
-WHERE Patient_SSN = '111-22-3333';
+WHERE Patient_SSN = '111-22-3333' AND Next_Visit IS NOT NULL
  
 /* Question 11 (DOES NOT WORK) */
 SELECT DoctorID
@@ -309,15 +316,14 @@ FROM(
     )
     GROUP BY DoctorID
 )
-Where Examinations > 2;
+WHERE Examinations > 2;
  
-/* Question 12 (DOES NOT WORK) */
-SELECT Type_ID
+/* Question 12 */
+SELECT EquipmentID
 FROM Equipment
-WHERE Purchace_Year = TO_DATE('2010', 'yyyy')
+WHERE Purchase_Year = 2010
 INTERSECT(
-    SELECT Type_ID
+    SELECT EquipmentID
     FROM Equipment
-    WHERE Purchace_Year = TO_DATE('2011', 'yyyy')
+    WHERE Purchase_Year = 2011
 )
-
