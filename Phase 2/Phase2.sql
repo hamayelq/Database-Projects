@@ -9,6 +9,8 @@ DROP TABLE Stays_In;
 DROP TABLE Inspect;
 DROP TABLE Room_Service;
 DROP TABLE Room_Access;
+
+
  
 CREATE TABLE Employee(
     EmployeeID INTEGER NOT NULL PRIMARY KEY,
@@ -85,6 +87,7 @@ CREATE TABLE Stays_In (
     Room_No VARCHAR2(5) NOT NULL,
     Admission_ID INTEGER,
     End_Date DATE NOT NULL,
+    CONSTRAINT pk_Stays_In PRIMARY KEY (Room_No, Admission_ID),
     FOREIGN KEY (Room_No) REFERENCES Room (Room_No),
     FOREIGN KEY (Admission_ID) REFERENCES Admission (Admission_ID)
 );
@@ -93,6 +96,7 @@ CREATE TABLE Inspect (
     Admission_ID INTEGER,
     DoctorID INTEGER NOT NULL,
     Comments CHAR(30),
+    CONSTRAINT pk_Inspect PRIMARY KEY (Admission_ID, DoctorID),
     FOREIGN KEY (Admission_ID) REFERENCES Admission (Admission_ID),
     FOREIGN KEY (DoctorID) REFERENCES Doctor (DoctorID)
 );
@@ -107,6 +111,7 @@ CREATE TABLE Room_Service (
 CREATE TABLE Room_Access (
     Room_No VARCHAR(5),
     EmployeeID INTEGER,
+    CONSTRAINT pk_Room_Access PRIMARY KEY (Room_No, EmployeeID)
     FOREIGN KEY (Room_No) REFERENCES Room (Room_No),
     FOREIGN KEY (EmployeeID) REFERENCES Employee (EmployeeID)
 );
