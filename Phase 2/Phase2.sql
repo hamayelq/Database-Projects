@@ -1,14 +1,14 @@
-DROP TABLE Employee CASCADE CONSTRAINTS;
-DROP TABLE Patient CASCADE CONSTRAINTS;
-DROP TABLE Room CASCADE CONSTRAINTS;
-DROP TABLE Admission CASCADE CONSTRAINTS;
-DROP TABLE Equipment_Type CASCADE CONSTRAINTS;
-DROP TABLE Equipment CASCADE CONSTRAINTS;
-DROP TABLE Doctor CASCADE CONSTRAINTS;
-DROP TABLE Stays_In CASCADE CONSTRAINTS;
-DROP TABLE Inspect CASCADE CONSTRAINTS;
-DROP TABLE Room_Service CASCADE CONSTRAINTS;
-DROP TABLE Room_Access CASCADE CONSTRAINTS;
+DROP TABLE Employee;
+DROP TABLE Patient;
+DROP TABLE Room;
+DROP TABLE Admission;
+DROP TABLE Equipment_Type;
+DROP TABLE Equipment;
+DROP TABLE Doctor;
+DROP TABLE Stays_In;
+DROP TABLE Inspect;
+DROP TABLE Room_Service;
+DROP TABLE Room_Access;
  
 CREATE TABLE Employee(
     EmployeeID INTEGER NOT NULL PRIMARY KEY,
@@ -228,17 +228,20 @@ INSERT INTO Room_Access(Room_No,EmployeeID) VALUES('999','10007');
 /*SQL Queries*/
  
 /* Question 1 */
+--Report the hospital rooms that are currently occupied
 SELECT Room_No
 FROM Room
 WHERE Occupation_Flag = 1;
  
 /* Question 2 */
+--report all regular employees that are supervised by a manager
 SELECT EmployeeID, First_Name, Last_Name, Salary
 FROM Employee
 WHERE BossID = 100
 AND empEchelon = 0;
  
 /* Question 3 */
+-- report the sum of amounts paid by the insurance company for a patient
 SELECT Patient_SSN, SUM(Insurance_Payment) AS totalPaid
 FROM Admission
 GROUP BY Patient_SSN
@@ -250,6 +253,7 @@ UNION
         FROM Admission));
  
 /* Question 4 */
+--Report the number of visits by each patient
 SELECT SSN, First_Name, Last_Name, numVisits
 FROM Patient NATURAL JOIN (
     SELECT Patient_SSN AS SSN, COUNT(*) AS numVisits
@@ -269,11 +273,13 @@ UNION(
 );
  
 /* Question 5 */
+--Report the room number that has an equipment unit with serial number ‘A01-02X’.
 SELECT Room_No
 FROM Equipment
 WHERE Serial_Number = 'A01-02X';
  
-/* Question 6 (DOES NOT WORK) */
+/* Question 6 */
+--Report the employee who has access to the largest number of rooms.
 Select EmployeeID, numRooms FROM 
     (SELECT EmployeeID, Count(Room_No) as numRooms
         From Room_Access
@@ -284,11 +290,13 @@ Select EmployeeID, numRooms FROM
 Group By EmployeeID));
  
 /* Question 7 */
+--Report the number of regular employees, division managers, and general managers in the hospital.
 SELECT Title AS empType, COUNT(Title) AS empCount
 FROM Employee
 GROUP BY Title;
  
 /* Question 8 */
+--Report patient with future visit
 SELECT SSN, First_Name, Last_Name, Next_Visit
 FROM Patient NATURAL JOIN (
     SELECT Patient_SSN AS SSN, Next_Visit
@@ -297,16 +305,19 @@ FROM Patient NATURAL JOIN (
 );
  
 /* Question 9 */
+--For each equipment type that has more than 3 units, report it
 SELECT EquipmentID, ModelNo, Number_Of_Units
 FROM Equipment_Type
 WHERE Number_Of_Units > 3;
  
 /* Question 10 */
+--Report the date of the coming future visit for patient with SSN = 111-22-3333
 SELECT Next_Visit
 FROM Admission
-WHERE Patient_SSN = '111-22-3333' AND Next_Visit IS NOT NULL
+WHERE Patient_SSN = '111-22-3333' AND Next_Visit IS NOT NULL;
  
 /* Question 11 */
+--patient SSN = 111-22-3333, report doctors who have examined this patient more than 2 times
 SELECT DoctorID
 FROM Inspect E, Admission A
 WHERE E.Admission_ID = A.Admission_ID AND A.Patient_SSN = '111-22-3333'
@@ -314,6 +325,7 @@ GROUP BY DoctorID
 HAVING COUNT(A.Patient_SSN) > 2;
  
 /* Question 12 */
+--Report the equipment types for which the hospital has purchased equipments in both 2010 and 2011
 SELECT EquipmentID
 FROM Equipment
 WHERE Purchase_Year = 2010
@@ -321,4 +333,4 @@ INTERSECT(
     SELECT EquipmentID
     FROM Equipment
     WHERE Purchase_Year = 2011
-)
+);
