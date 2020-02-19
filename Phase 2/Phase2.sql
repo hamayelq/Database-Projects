@@ -10,8 +10,6 @@ DROP TABLE Inspect;
 DROP TABLE Room_Service;
 DROP TABLE Room_Access;
 
-
- 
 CREATE TABLE Employee(
     EmployeeID INTEGER NOT NULL PRIMARY KEY,
     BossID INTEGER, /* Corresponds to the employee's manager. Gen. manager won't have a boss! */
@@ -83,11 +81,11 @@ CREATE TABLE Doctor (
 );
  
 CREATE TABLE Stays_In (
-    Start_Date DATE NOT NULL PRIMARY KEY,
+    Start_Date DATE NOT NULL,
     Room_No VARCHAR2(5) NOT NULL,
     Admission_ID INTEGER,
     End_Date DATE NOT NULL,
-    CONSTRAINT pk_Stays_In PRIMARY KEY (Room_No, Admission_ID),
+    CONSTRAINT pk_Stays_In PRIMARY KEY (Start_Date, Room_No, Admission_ID),
     FOREIGN KEY (Room_No) REFERENCES Room (Room_No),
     FOREIGN KEY (Admission_ID) REFERENCES Admission (Admission_ID)
 );
@@ -111,7 +109,7 @@ CREATE TABLE Room_Service (
 CREATE TABLE Room_Access (
     Room_No VARCHAR(5),
     EmployeeID INTEGER,
-    CONSTRAINT pk_Room_Access PRIMARY KEY (Room_No, EmployeeID)
+    CONSTRAINT pk_Room_Access PRIMARY KEY (Room_No, EmployeeID),
     FOREIGN KEY (Room_No) REFERENCES Room (Room_No),
     FOREIGN KEY (EmployeeID) REFERENCES Employee (EmployeeID)
 );
@@ -172,6 +170,22 @@ INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Nex
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1018', '555-55-5555', DATE '2002-09-01', DATE '2002-09-03', DATE '2002-11-01', '15000', '500');
 INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1019', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
  
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1020', '999-99-9999', DATE '2005-05-01', DATE '2005-05-03', '', '1000', '900');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1021', '999-99-9999', DATE '2005-06-01', DATE '2005-06-03', '', '1000', '900');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1022', '999-99-9999', DATE '2005-07-01', DATE '2005-07-03', '', '1000', '900');
+
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1023', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1024', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1025', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1026', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1027', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1028', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1029', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1030', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1031', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1032', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+INSERT INTO Admission(Admission_ID, Patient_SSN, Admission_Time, Leave_Time, Next_Visit, Total_Payment, Insurance_Payment) VALUES('1033', '555-55-5555', DATE '2002-10-01', DATE '2002-10-03', DATE '2002-12-01', '0', '0');
+
 /*EquipType*/
 INSERT INTO Equipment_Type(EquipmentID, Instructions, Description, ModelNo, Number_Of_Units) VALUES('1000','Turn on.', 'MRI machine.','500', '3');
 INSERT INTO Equipment_Type(EquipmentID, Instructions, Description, ModelNo, Number_Of_Units) VALUES('1001','Do stuff.', 'Cat scan.','501', '5');
@@ -202,6 +216,10 @@ INSERT INTO Stays_In(Start_Date, Room_No, Admission_ID, End_Date) VALUES(DATE '2
 INSERT INTO Stays_In(Start_Date, Room_No, Admission_ID, End_Date) VALUES(DATE '2003-03-01', '333', '1012', DATE '2003-03-03');
 INSERT INTO Stays_In(Start_Date, Room_No, Admission_ID, End_Date) VALUES(DATE '2003-04-01', '444', '1013', DATE '2003-04-03');
  
+INSERT INTO Stays_In(Start_Date, Room_No, Admission_ID, End_Date) VALUES(DATE '2004-01-01', '999', '1020', DATE '2005-05-03');
+INSERT INTO Stays_In(Start_Date, Room_No, Admission_ID, End_Date) VALUES(DATE '2005-01-01', '999', '1021', DATE '2005-06-03');
+INSERT INTO Stays_In(Start_Date, Room_No, Admission_ID, End_Date) VALUES(DATE '2006-01-01', '999', '1022', DATE '2005-07-03');
+
 /*Inspections*/
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1010','1111','Just plain dumb');
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','3333','Fractured earlobe');
@@ -213,6 +231,18 @@ INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1013','7777','Sexual
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1014','8888','Blindness');
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1015','8888','Is Deaf');
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1016','8888','Lost sense of touch');
+
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1023','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1024','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1025','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1026','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1027','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1028','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1029','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1030','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1031','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1032','9999','Corona Virus');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1033','9999','Corona Virus');
  
 /*RoomServices*/
 INSERT INTO Room_Service(Room_No,Service) VALUES('111','ER');
@@ -223,6 +253,8 @@ INSERT INTO Room_Service(Room_No,Service) VALUES('444','Disinfection');
 INSERT INTO Room_Service(Room_No,Service) VALUES('888','XRAY');
 INSERT INTO Room_Service(Room_No,Service) VALUES('888','Heart Surgery');
 INSERT INTO Room_Service(Room_No,Service) VALUES('888','Spleen Surgery');
+
+INSERT INTO Room_Service(Room_No,Service) VALUES('999','ICU');
  
 /*Room Access*/
 INSERT INTO Room_Access(Room_No,EmployeeID) VALUES('222','10000');
