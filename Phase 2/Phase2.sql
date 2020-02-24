@@ -223,8 +223,8 @@ INSERT INTO Stays_In(Start_Date, Room_No, Admission_ID, End_Date) VALUES(DATE '2
 /*Inspections*/
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1010','1111','Just plain dumb');
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','3333','Fractured earlobe');
-INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','1111','Fractured pelvis');
-INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','1111','Fractured belly');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','4444','Fractured pelvis');
+INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1011','2222','Fractured belly');;
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1012','0000','Sexually induced tinnitus');
 INSERT INTO Inspect(Admission_ID,DoctorID,Comments) VALUES('1013','7777','Sexually induced bronchitis');
 
