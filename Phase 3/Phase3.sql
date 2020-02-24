@@ -126,3 +126,58 @@ begin
     END IF;
 end;
 /
+
+/* CtUltra sound after 2006*/
+CREATE OR REPLACE TRIGGER CTUltra
+BEFORE INSERT OR UPDATE ON Equipment
+FOR EACH ROW
+DECLARE 
+CT char(15);
+Ultra char(15);
+begin
+    SELECT EquipmentID INTO CT
+    FROM Equipment_Type
+    WHERE Description = 'CT Scanner';
+    
+    SELECT EquipmentID INTO Ultra
+    FROM Equipment_Type
+    WHERE Description = 'Ultrasound';
+    
+    If :new.EquipmentID = CT or :new.EquipmentID = Ultra THEN
+        If :new.Purchase_Year IS NULL THEN
+            RAISE_APPLICATION_ERROR(-20004, 'Equipment does not meet requirments');
+        End If;
+        If (:new.Purchase_Year < 2007) THEN
+            RAISE_APPLICATION_ERROR(-20004, 'Equipment does not meet requirments');
+        End if;
+    End If;
+end;
+/
+
+/* Print Patient Info*/
+CREATE OR REPLACE TRIGGER PrintPatientInfo
+AFTER UPDATE ON Admission
+For Each Row
+DECLARE
+FirstName1 char(20);
+LastName1 char(20);
+Address1 char(20);
+Comments1 char(50);
+CURSOR c1 Is Select DoctorID, Comments From Inspect Order By DoctorID;
+begin
+    If :new.Leave_Time IS NOT NULL THEN
+        Select First_Name Into FirstName1 From Patient Where :new.Patient_SSN = SSN;
+        Select Last_Name Into LastName1 From Patient Where :new.Patient_SSN = SSN;
+        Select Patient_Address Into Address1 From Patient Where :new.Patient_SSN = SSN;
+        
+        dbms_output.put_line(|| FirstName1 || ' ' || LastName1);
+		dbms_output.put_line(|| Address1);
+		
+        FOR record IN c1
+		LOOP
+			dbms_output.put_line(|| record.DoctorID);
+			dbms_output.put_line(|| record.Comments);
+		END LOOP;
+    End If;
+end;
+/
