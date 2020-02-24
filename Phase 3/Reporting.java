@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class Reporting {
 
-    static final String jdbcDriver = "";
-    static final String dbURL = "";
+    static final String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
+    static final String dbURL = "jdbc:oracle:thin:@csorcl.cs.wpi.edu:1521:orcl";
     static String username = "";
     static String password = "";
     static String queryNo = "";
@@ -39,6 +39,11 @@ public class Reporting {
         return true;
     }
 
+    /**
+     * passQuery function to try and pass queries into the Database. A helper function for the main arguments.
+     * @param query Holding info for a patient's SSN/doctor's ID/etc.
+     * @param queryID What query selection the user made
+     */
     public static void passQuery(String query, String queryID) {
         try {
             String SQLQuery1 = null;
@@ -108,6 +113,11 @@ public class Reporting {
         }
     }
 
+    /**
+     * updateAdmissionPay is a helper function for the main argument where a user can update an admission payment!
+     * @param admissionID The admission's unique identifier
+     * @param updatedTotal The newly updated payment total
+     */
     public static void updateAdmissionPay(String admissionID, String updatedTotal) {
         try {
             Statement statement = connect.createStatement();
@@ -120,6 +130,78 @@ public class Reporting {
         }
     }
 
+    /**
+     * Main function to take care of user input
+     * @param args Input from user
+     */
+    public static void main(String[] args) {
 
+        if(args.length < 2 ) {
+            Scanner userInput = new Scanner(System.in);
+            System.out.print("Enter Username: ");
+            username = userInput.next();
+            System.out.print("Enter Password: ");
+            password = userInput.next();
+            System.out.print("Select Query Type: ");
+            queryNo = userInput.next();
+        }
+        else {
+            password = args[1];
+            username = args[0];
+        }
+
+        if(!tryLogin()) {
+            System.out.println("Username or Password Incorrect!\n");
+        }
+
+        if(args.length == 2) {
+            System.out.println("Select your Database Function:\n");
+            System.out.println("1- Report Patients Basic Information\n");
+            System.out.println("2- Report Doctors Basic Information\n");
+            System.out.println("3- Report Admissions Information\n");
+            System.out.println("4- Update Admissions Payment\n");
+        }
+
+        if(args.length == 3) {
+            Scanner userInput = new Scanner(System.in);
+            queryNo = args[2];
+
+            if(queryNo.equals("1")) {
+                System.out.println("What is the patients SSN?: ");
+                String SSN = userInput.next();
+                passQuery(SSN, "1");
+            }
+            else if(queryNo.equals("2")) {
+                System.out.println("What is the Doctor's ID?: ");
+                String DoctorID = userInput.next();
+                passQuery(DoctorID, "2");
+            }
+            else if(queryNo.equals("3")) {
+                System.out.println("What is the Admission ID?: ");
+                String AdmissionID = userInput.next();
+                passQuery(AdmissionID, "3");
+            }
+            else if(queryNo.equals("4")) {
+                System.out.println("What is the Admission ID for the payment update?: ");
+                String AdmissionID = userInput.next();
+                System.out.println("What is the new total?: ");
+                String updatedTotal = userInput.next();
+                updateAdmissionPay(AdmissionID, updatedTotal);
+            }
+            else {
+                System.out.println("Invalid input! Please choose between options 1 and 4: \n");
+                System.out.println("1- Report Patients Basic Information\n");
+                System.out.println("2- Report Doctors Basic Information\n");
+                System.out.println("3- Report Admissions Information\n");
+                System.out.println("4- Update Admissions Payment\n");
+            }
+        }
+        try {
+            connect.close();
+            System.out.println("Closing connection from server!");
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
 
 }
