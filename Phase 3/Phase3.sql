@@ -59,17 +59,17 @@ AND CriticalCases.Patient_SSN = Admission.Patient_SSN;
 CREATE OR REPLACE TRIGGER CommentLeft
 BEFORE INSERT OR UPDATE ON Inspect
 FOR EACH ROW
-DECLARE tmp NUMBER := 0;
-begin
-    SELECT COUNT(*) INTO tmp
+DECLARE temp NUMBER := 0;
+BEGIN
+    SELECT COUNT(*) INTO temp
     FROM Room_Service, Stays_In, Inspect
     WHERE :new.Admission_ID = Stays_In.Admission_ID
     AND Stays_In.Room_No = Room_Service.Room_No
     AND Room_Service.Service = 'ICU';
-    IF(tmp :new.comment = null AND tmp != 0) THEN
-        RAISE_APPLICATION_ERROR(-20004, 'Comment may not be left null!')
+    IF(temp != 0 AND :new.comments = null) THEN
+        RAISE_APPLICATION_ERROR(-20004, 'Comment may not be left null!');
     END IF;
-end;
+END;
 /
 
 /* Insurance 65% */
@@ -90,7 +90,8 @@ DECLARE superRank NUMBER := 1;
 begin
     SELECT empEchelon INTO superRank FROM Employee WHERE EmployeeID = :new.BossID;
     IF(superRank != 1) THEN
-        RAISE_APPLICATION_ERROR(-20004, 'Incompatible rank for regular employee supervisor')
+        RAISE_APPLICATION_ERROR(-20004, 'Incompatible rank for regular employee supervisor');
+    END IF;
 end;
 /
 
@@ -103,7 +104,8 @@ DECLARE superRank NUMBER := 2;
 begin
     SELECT empEchelon INTO superRank FROM Employee WHERE EmployeeID = :new.BossID;
     IF(superRank != 2) THEN
-        RAISE_APPLICATION_ERROR(-20004, 'Incompatible rank for division manager supervisor')
+        RAISE_APPLICATION_ERROR(-20004, 'Incompatible rank for division manager supervisor');
+    END IF;
 end;
 /
 
@@ -120,7 +122,7 @@ begin
     AND :new.Room_No = Room_Service.Room_No
     AND Room_Service.Service = 'Emergency';
     IF(roomVers != NULL) THEN
-        UPDATE Admission SET Next_Visit = ADD_MONTHS(oneDate, 2) WHERE Admission_ID = :new.Admission_ID
+        UPDATE Admission SET Next_Visit = ADD_MONTHS(oneDate, 2) WHERE Admission_ID = :new.Admission_ID;
     END IF;
 end;
 /
