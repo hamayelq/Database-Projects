@@ -170,13 +170,13 @@ begin
         Select Last_Name Into LastName1 From Patient Where :new.Patient_SSN = SSN;
         Select Patient_Address Into Address1 From Patient Where :new.Patient_SSN = SSN;
         
-        dbms_output.put_line(|| FirstName1 || ' ' || LastName1);
-		dbms_output.put_line(|| Address1);
+        dbms_output.put_line(FirstName1 || ' ' || LastName1);
+		dbms_output.put_line(Address1);
 		
         FOR record IN c1
 		LOOP
-			dbms_output.put_line(|| record.DoctorID);
-			dbms_output.put_line(|| record.Comments);
+			dbms_output.put_line(record.DoctorID);
+			dbms_output.put_line(record.Comments);
 		END LOOP;
     End If;
 end;
