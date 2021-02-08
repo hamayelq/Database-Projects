@@ -1,3 +1,3 @@
-# Databases-1
+# Databases
 
-Repository for databases project
+A few database projects to learn SQL and relational databases.
